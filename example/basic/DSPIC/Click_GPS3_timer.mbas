@@ -1,0 +1,34 @@
+'
+'
+'Use mikroE Timer Calculator to generate proper timer configuration
+'and timer ISR.
+'
+'https://www.mikroe.com/timer-calculator
+'
+'
+module Click_GPS3_timer
+
+include Click_GPS3_types
+dim
+    timerCounter as uint32_t 
+    
+sub procedure Timer_interrupt() iv IVT_ADDR_T1INTERRUPT 
+sub procedure gps3_configTimer() 
+
+implements
+
+sub procedure gps3_configTimer() 
+    T1CON = 0x8000 
+    T1IE_bit = 1 
+    T1IF_bit = 0 
+    IPC0 = IPC0 or 0x1000 
+    PR1 = 4000 
+end sub
+
+sub procedure Timer_interrupt() iv IVT_ADDR_T1INTERRUPT 
+    T1IF_bit = 0 
+    inc(timerCounter)
+    gps3_tick() 
+end sub
+
+end.

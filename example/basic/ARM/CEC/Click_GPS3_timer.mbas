@@ -1,0 +1,25 @@
+'
+' Use mikroE Timer Calculator to generate proper timer configuration
+' and timer ISR.
+'
+' https://www.mikroe.com/timer-calculator
+'
+module Click_GPS3_timer
+
+include Click_GPS3_types
+    
+sub procedure gps3_configTimer() 
+
+implements
+
+sub procedure gps3_configTimer() 
+
+end sub
+
+sub procedure Timer_interrupt() 
+
+    gps3_tick() 
+
+end sub
+
+end.

@@ -1,0 +1,34 @@
+0	1	mikroCARM.exe -MSF -DBG -pSTM32F107VC -BIN -LHF -DL -SSA -O11111114 -fo72 -N"D:\Clicks_git\G\GPS_3_Click\SW\example\c\ARM\STM\Click_GPS3_STM.mcpar" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\" -SP"D:\Clicks_git\G\GPS_3_Click\SW\example\c\ARM\STM\" -SP"D:\Clicks_git\G\GPS_3_Click\SW\library\HAL\" -SP"D:\Clicks_git\G\GPS_3_Click\SW\library\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Packages\mikroBUS Board Definition API\Uses\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\" -IP"D:\Clicks_git\G\GPS_3_Click\SW\example\c\ARM\STM\" -IP"D:\Clicks_git\G\GPS_3_Click\SW\library\" -IP"D:\Clicks_git\G\GPS_3_Click\SW\library\HAL\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Packages\mikroBUS Board Definition API\Uses\" "Click_GPS3_STM.c" "__gps3_driver.c" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_Delays.emcl" "__Lib_System_105_107.emcl" "__Lib_GPIO_32F10x_Defs.emcl" "__Lib_GPIO_32F10x.emcl" "__Lib_CString.emcl" "__Lib_Conversions.emcl" "__Lib_UART_123_45.emcl" "easymx_v7_STM32F107VC.emcl" "Click_GPS3.pld"	 
+diagnostics: 0	122	Compilation Started	STM32F107VC.c
+diagnostics: 38838	123	Compiled Successfully	STM32F107VC.c
+diagnostics: 0	122	Compilation Started	__Lib_Delays.c
+diagnostics: 118	123	Compiled Successfully	__Lib_Delays.c
+hint: 66	1164	Variable 'cycles_div_by_10' has been eliminated by optimizer	__Lib_Delays.c
+hint: 87	1164	Variable 'NumberOfCyc' has been eliminated by optimizer	__Lib_Delays.c
+hint: 104	1164	Variable 'NumberOfCyc' has been eliminated by optimizer	__Lib_Delays.c
+diagnostics: 0	122	Compilation Started	__lib_gpio.h
+diagnostics: 835	123	Compiled Successfully	__Lib_GPIO_32F10x_Defs.c
+diagnostics: 0	122	Compilation Started	stdint.h
+hint: 0	1004	interrupt handler (Timer_interrupt at 0x002C)	click_gps3_timer.h
+error: 27	324	Undeclared identifier 'gps3_tick' in expression	click_gps3_timer.h
+error: 77	324	Undeclared identifier 'gps3_uartDriverInit' in expression	Click_GPS3_STM.c
+error: 77	317	Operator '' is not applicable to these operands ''	Click_GPS3_STM.c
+error: 77	402	; expected, but ')' found	Click_GPS3_STM.c
+error: 77	424	'}' expected ';' found	Click_GPS3_STM.c
+error: 96	324	Undeclared identifier 'gps3_process' in expression	Click_GPS3_STM.c
+error: 113	324	Undeclared identifier 'gps3_parser' in expression	Click_GPS3_STM.c
+error: 113	307	Illegal typecast 'can not convert to pointer' ''	Click_GPS3_STM.c
+error: 133	324	Undeclared identifier 'gps3_parser' in expression	Click_GPS3_STM.c
+error: 133	307	Illegal typecast 'can not convert to pointer' ''	Click_GPS3_STM.c
+error: 152	324	Undeclared identifier 'gps3_parser' in expression	Click_GPS3_STM.c
+error: 152	307	Illegal typecast 'can not convert to pointer' ''	Click_GPS3_STM.c
+error: 166	312	Internal error ''	Click_GPS3_STM.c
+diagnostics: 0	122	Compilation Started	stdint.h
+warning: 160	1503	Result is not defined in function: 'DCE_getState'	__gps3_driver.c
+diagnostics: 847	123	Compiled Successfully	__gps3_driver.c
+hint: 217	1164	Variable 'tmp' has been eliminated by optimizer	__gps3_driver.c
+hint: 135	1164	Variable 'tmp' has been eliminated by optimizer	__gps3_driver.c
+hint: 304	1164	Variable 'tmp' has been eliminated by optimizer	__gps3_driver.c
+hint: 315	1164	Variable 'tmp' has been eliminated by optimizer	__gps3_driver.c
+hint: 734	1164	Variable 'tmp' has been eliminated by optimizer	__gps3_driver.c
+error: 0	102	Finished (with errors): 22 jan 2019, 14:33:09	Click_GPS3_STM.mcpar

@@ -1,0 +1,134 @@
+'
+'Example for GPS3 Click
+'
+'    Date          : Nov 2017.
+'    Author        : MikroE Team
+'
+'Test configuration CEC :
+'    
+'    MCU              : CEC1302
+'    Dev. Board       : Clicker 2 for CEC1302
+'    ARM Compiler ver : v6.1.0.0
+'
+'---
+'
+'Description :
+'
+'The application is composed of three sections :
+'
+'- System Initialization - Initializes all necessary GPIO pins, UART used for
+'the communcation with GSM module and UART used for infromation logging
+'- Application Initialization - Initializes driver, power on module and sends few
+'command for the default module configuration
+'- Application Task - running in parallel core state machine and and checks for call flag.
+'If call detected parser will hang up call.
+'
+'Additional Functions :
+'
+'All additional functions such as timer initialization and default handler. 
+''
+'Notes :
+'
+'- Echo must be turned off for succefull parsing. ( ATE0 )
+'- UART polling works much better with HFC enabled.
+'- In case of usage of other MCUs Timer initialization must be adjusted according to your MCU.
+'
+'
+program Click_GPS3_CEC
+
+include Click_GPS3_types
+include Click_GPS3_config
+include Click_GPS3_timer
+
+dim
+    ' COMMANDS
+    GPS3_AT as string[3]
+    GPS3_HANGUP as string[4]
+    GPS3_ECHO_OFF as string[5]
+    GPS3_FORMAT_DEFAULT as string[10]
+    GPS3_HFC_ENABLE as string[11]
+
+    ' CALLER FLAG
+    callFlag as uint8_t
+
+sub procedure gps3_default_handler(dim rsp as ^uint8_t, dim evArgs as ^uint8_t) 
+dim
+    ptr_rsp as ^char
+    
+    ptr_rsp = rsp + 2
+    
+    if ( ptr_rsp^ = 82 ) then
+        callFlag = 1
+    end if
+
+    mikrobus_logWrite( ptr_rsp - 2, _LOG_TEXT )
+    
+end sub
+
+sub procedure systemInit() 
+
+    GPS3_AT = "AT"
+    GPS3_HANGUP = "ATH"
+    GPS3_ECHO_OFF = "ATE0"
+    GPS3_FORMAT_DEFAULT = "AT+CMGF=1"
+    GPS3_HFC_ENABLE = "AT+IFC=2,2"
+
+    callFlag = 0
+
+    mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_AN_PIN, _GPIO_INPUT )
+    mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_PWM_PIN, _GPIO_INPUT )
+    mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_INT_PIN, _GPIO_INPUT )
+    mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_RST_PIN, _GPIO_OUTPUT )
+    mikrobus_gpioInit( _MIKROBUS1, _MIKROBUS_CS_PIN, _GPIO_OUTPUT )    
+
+    mikrobus_uartInit(_MIKROBUS1, @_GPS3_UART_CFG[0]) 
+    mikrobus_logInit(_MIKROBUS2, 9600) 
+
+end sub
+
+sub procedure applicationInit() 
+
+' TIMER INIT
+    gps3_configTimer()
+
+' DRIVER INIT
+    gps3_uartDriverInit(T_GPS3_P(@_MIKROBUS1_GPIO), T_GPS3_P(@_MIKROBUS1_UART)) 
+    gps3_coreInit(@gps3_default_handler, 1500)
+
+' MODULE POWER ON
+    gps3_hfcEnable(true) 
+    gps3_modulePower(true) 
+
+' MODULE INIT
+    gps3_cmdSingle(@GPS3_AT[0]) 
+    gps3_cmdSingle(@GPS3_AT[0]) 
+    gps3_cmdSingle(@GPS3_AT[0]) 
+    gps3_cmdSingle(@GPS3_ECHO_OFF[0]) 
+    gps3_cmdSingle(@GPS3_HFC_ENABLE[0]) 
+    gps3_cmdSingle(@GPS3_FORMAT_DEFAULT[0]) 
+
+end sub
+
+sub procedure applicationTask() 
+
+    gps3_process() 
+
+    if ((0 <> callFlag)) then 
+    
+        gps3_cmdSingle(@GPS3_HANGUP[0]) 
+        Delay_ms(3000) 
+
+        callFlag = 0 
+    end if
+
+end sub
+
+main :
+
+    systemInit() 
+    applicationInit() 
+    while (1) 
+        applicationTask() 
+    wend
+
+end.
